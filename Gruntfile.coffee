@@ -1,10 +1,11 @@
 module.exports = (grunt) ->
   grunt.initConfig
+    bowerDirectory: require('bower').config.directory
     less:
       compile:
         options:
           compress: false
-          paths: ['less', 'tmp', 'bower_components/bootstrap/less']
+          paths: ['less', 'tmp', '<%= bowerDirectory %>/bootstrap/less']
         files:
           'dist/css/bootstrap.css': ['less/theme.less']
     watch:
@@ -19,18 +20,20 @@ module.exports = (grunt) ->
     cssmin:
       minify:
         expand: true
-        cwd: 'dist'
+        cwd: 'dist/css'
         src: ['*.css', '!*.min.css']
         dest: 'dist/css'
         ext: '.min.css'
     connect:
       serve:
         options:
-          port: 8000
+          port: grunt.option('port') || '8000'
+          hostname: grunt.option('host') || 'localhost'
     copy:
       bootstrap:
         files: [
-          { expand: true, cwd: 'bower_components/bootstrap/less', src: ['bootstrap.less'], dest: 'tmp/' }
+          { expand: true, cwd: '<%= bowerDirectory %>/bootstrap/less', src: ['bootstrap.less'], dest: 'tmp/' },
+          { expand: true, cwd: '<%= bowerDirectory %>/bootstrap/fonts', src: ['*'], dest: 'dist/fonts' }
         ]
     clean: ['tmp']
 
