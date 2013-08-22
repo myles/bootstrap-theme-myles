@@ -24,26 +24,29 @@ module.exports = (grunt) ->
         src: ['*.css', '!*.min.css']
         dest: 'dist/css'
         ext: '.min.css'
+    concat:
+        dist:
+            src: [
+                '<%= bowerDirectory %>/jquery/jquery.js',
+                '<%= bowerDirectory %>/bootstrap/js/transition.js',
+                '<%= bowerDirectory %>/bootstrap/js/alert.js',
+                '<%= bowerDirectory %>/bootstrap/js/button.js',
+                '<%= bowerDirectory %>/bootstrap/js/carousel.js',
+                '<%= bowerDirectory %>/bootstrap/js/collapse.js',
+                '<%= bowerDirectory %>/bootstrap/js/dropdown.js',
+                '<%= bowerDirectory %>/bootstrap/js/modal.js',
+                '<%= bowerDirectory %>/bootstrap/js/tooltip.js',
+                '<%= bowerDirectory %>/bootstrap/js/popover.js',
+                '<%= bowerDirectory %>/bootstrap/js/scrollspy.js',
+                '<%= bowerDirectory %>/bootstrap/js/tab.js',
+                '<%= bowerDirectory %>/bootstrap/js/affix.js'
+                '<%= bowerDirectory %>/FitVids/jquery.fitvids.js',
+            ],
+            dest: 'dist/js/script.js'
     uglify:
         my_target:
             files:
-                'dist/js/script.js' : [
-                    'bower_components/jquery/jquery.js',
-                    'bower_components/bootstrap/js/transition.js',
-                    'bower_components/bootstrap/js/alert.js',
-                    'bower_components/bootstrap/js/button.js',
-                    'bower_components/bootstrap/js/carousel.js',
-                    'bower_components/bootstrap/js/collapse.js',
-                    'bower_components/bootstrap/js/dropdown.js',
-                    'bower_components/bootstrap/js/modal.js',
-                    'bower_components/bootstrap/js/tooltip.js',
-                    'bower_components/bootstrap/js/popover.js',
-                    'bower_components/bootstrap/js/scrollspy.js',
-                    'bower_components/bootstrap/js/tab.js',
-                    'bower_components/bootstrap/js/affix.js'
-                    'bower_components/FitVids/jquery.fitvids.js',
-                    'js/script.js',
-                ]
+                'dist/js/script.min.js' : [ 'js/script.js', ]
     connect:
       serve:
         options:
@@ -65,6 +68,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib-uglify')
+  grunt.loadNpmTasks('grunt-contrib-concat')
 
-  grunt.registerTask('default', ['copy', 'less', 'cssmin', 'uglify', 'clean'])
+  grunt.registerTask('default', ['copy', 'less', 'cssmin', 'concat', 'uglify', 'clean'])
   grunt.registerTask('serve', ['connect', 'watch'])
